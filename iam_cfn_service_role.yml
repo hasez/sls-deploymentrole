@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description:
+  AWS CloudFormation service role for IAM
+
+Parameters:
+  Owner:
+    Type: String
+    Description: Owner
+    Default: "rvp"
+  SystemCode:
+    Type: String
+    Description: System Code
+    Default: "ifr"
+  Env:
+    Type: String
+    AllowedValues:
+      - "dev"
+    Default: "dev"
+
+Resources:
+  DeployRoleForCloudFormation:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Owner}-${SystemCode}-${Env}-cfn-deploy"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action: "sts:AssumeRole"
+            Principal:
+              Service:
+                - "cloudformation.amazonaws.com"
+      Policies:
+        - PolicyName: !Sub "${Owner}-${SystemCode}-${Env}-cfn-deploy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "s3:*"
+                  - "lambda:*"
+                  - "iam:*"
+                  - "logs:*"
+                Resource:
+                  - "*"
+Outputs:
+  DeployRoleForCloudFormationArn:
+    Description: "DeployRoleForCloudFormationArn"
+    Value: !GetAtt ["DeployRoleForCloudFormation","Arn"]

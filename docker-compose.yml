@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  sls-deploy:
+    container_name: sls-deploy
+    build: .
+    tty: true
+    working_dir: /var/task
+    volumes:
+      - .:/var/task
+      - ${HOME}/.aws/:/home/ope/.aws:rw
+    entrypoint: >
+      /bin/sh -c "
+        pip3 install pipenv;
+        pipenv install -d;
+        /bin/bash;
+      "

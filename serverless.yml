@@ -1,0 +1,15 @@
+service: infra-test-serverless-framework # NOTE: update this with your service name
+
+frameworkVersion: '2 || 3'
+
+# Change Wed Jan 11 09:18:30 UTC 2023
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  iam:
+    deploymentRole: ${cf:rvp-ifr-dev-cfn-service-role.DeployRoleForCloudFormationArn}
+
+functions:
+  hello:
+    handler: handler.hello
