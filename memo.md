@@ -62,9 +62,9 @@ iam_cfn_service_role.sh deploy
 - serverless.yml
     ```diff
     provider:
-    name: aws
-    runtime: python3.8
-    lambdaHashingVersion: 20201221
+      name: aws
+      runtime: python3.8
+      lambdaHashingVersion: 20201221
     +  iam:
     +    deploymentRole: ${cf:rvp-ifr-dev-cfn-service-role.DeployRoleForCloudFormationArn}
     ```
